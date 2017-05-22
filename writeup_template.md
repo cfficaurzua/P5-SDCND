@@ -89,10 +89,11 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 
 ---
-
-https://www.youtube.com/watch?v=44fYlcBOYA0
+## Results
+The video of the processed project video can be seen in [this link](https://www.youtube.com/watch?v=44fYlcBOYA0)
+As you can see, I blend the heatmap over the original video, and then add the bounding boxes on top of the image to enhance the vehicles detected.
 
 ## Discussion
 
 The algorithm, overall, performs well however the quantity, position and size of every windows needs to be wisely set up, because the time it takes to analyse each window is considerably high, at first I chose many windows and it took over 10 seconds for each frame, then I significantly tighten the search region so the time diminished to more or less 3 seconds without compromise the accuracy. 
-I think that the algorithm is very slow, because is nested into two for loops, in order to increase the performance, the algorithm can be implemented with parallel computing using the gpu instead of the cpu. This will have an enourmous effect. I search other approaches within the state of the art and found the YOLO (You Only Look Once) system, that was incredibly faster, other classmates chose to work with CNN classifiers instead of SVM, and had much better results, and found easily and smoothly the vehicles, I did not tried to use deep learning, because I wanted to dive into svm classifiers, at the end, probably a   
+I think that the algorithm is very slow, because is nested into two for loops, in order to increase the performance, the algorithm can be implemented with parallel computing using the gpu instead of the cpu. This will have an enourmous effect. I search other approaches within the state of the art and found the YOLO (You Only Look Once) system, that was incredibly faster, other classmates chose to work with CNN classifiers instead of SVM, and had much better results, and found easily and smoothly the vehicles, I did not tried to use deep learning, because I wanted to really dive into svm classifiers, and time was scarce: at the end, probably all classifiers will be used at some point in autonomous vehicles, so is important to have experience with each one, and do not favored one over the others.
