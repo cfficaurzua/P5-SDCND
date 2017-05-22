@@ -1,20 +1,5 @@
 # Vehicle Detection Project
 
---
-
-# Introduction
-
-This project aims to detect vehicles from each frame of a video and keep a track of each one, to achieve this goal a svm classifier approach is selected, using diferent features of color and gradient of a a region of pixels, the region of pixels are obtained using a sliding windows search that execute the algorithm within the current window.
-
-## Goals
-
-* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
-* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
-* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
-* Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
-* Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
-* Estimate a bounding box for vehicles detected.
-
 [//]: # (Image References)
 [image1]: ./examples/car_not_car.png
 [image2]: ./examples/HOG_example.jpg
@@ -25,29 +10,48 @@ This project aims to detect vehicles from each frame of a video and keep a track
 [image7]: ./examples/output_bboxes.png
 [video1]: ./project_video.mp4
 
+## Introduction
+
+This project aims to detect vehicles from each frame of a video and keep a track of each one, to achieve this goal a a computer vision technique, the svm classifier approach is selected, using diferent features of color and gradient of a a region of pixels, the region of pixels are obtained using a sliding windows search that execute the algorithm within the current window.
+
+![alt text][image1]
+
+## Goals
+
+* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
+* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
+* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
+* Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
+* Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
+* Estimate a bounding box for vehicles detected.
+
 ###Histogram of Oriented Gradients (HOG)
 
 I downloaded the data from vehicles and non-vehicles provided by udacity, and stored them in separate folders.
 I built a function *data_look()* that takes the list of paths of both cars and non cars and return a summary of the data, including a example picture of each set,  the n° of pictures for both set, and finally the shape and data type of the images.
 
-![alt text][image1]
-
-I tried different color spaces, both the L channel from *Luv* and all the channels from *YCrCB* had good results, 
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-
 ![alt text][image2]
 
-####2. Explain how you settled on your final choice of HOG parameters.
+I tried different using only HOG, but color information improved the acurracy so then I decided to use all the techniques used in the udacity course, HOG, bin spatial and color historam. I tried using different color spaces, The L channel from *Luv*, the Saturation channel, and all the channels from *YCrCb* had good results, at the end, I kept the YcrCb as my classmates encourage to use and I was pretty satisfied with the results.
 
-I tried various combinations of parameters and...
+I first tried using all the images but my computer couldn't cope with the memory needed to handle all the pictures so I cutted the set to use only 100 images, with the only purpose of trying different parameters. I tried changing the pixels, per cell and orients but as I increase the numbers I noticed that the time spended also increase, and with the default values (orient = 9, pixel_per_cell=8, cell_per_block = 2, spatial_size = (32,32) and hist_bins = 32) I got good results, over 86% accuracy, then I thought that with more pictures the classifier would be more robust, and If the algorithm encounters false positives I could treat them with a later postprocessing using the heatmap approach.
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+Then I extracted the features and train the linear SVM using the following parameters, using a aws machine to handle the amount of memory without collapsing.
 
-I trained a linear SVM using...
+|Parameter  |value |
+|-----------|------|
+|C|1.0|
+|class_weight|None|
+|dual|True|
+|fit_intercept|True|
+|intercept_scaling|1|
+|loss|'squared_hinge'|
+|max_iter|1000|
+|multi_class|'ovr'|
+|penalty|'l2'|
+|random_state|None|
+|tol|0.0001|
+     verbose=0
 
 ###Sliding Window Search
 
