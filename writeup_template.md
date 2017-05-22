@@ -1,5 +1,11 @@
 # Vehicle Detection Project
 
+--
+
+# Introduction
+
+This project aims to detect vehicles from each frame of a video and keep a track of each one, to achieve this goal a svm classifier approach is selected, using diferent features of color and gradient of a a region of pixels, the region of pixels are obtained using a sliding windows search that execute the algorithm within the current window.
+
 ## Goals
 
 * Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
@@ -21,13 +27,12 @@
 
 ###Histogram of Oriented Gradients (HOG)
 
-####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 I downloaded the data from vehicles and non-vehicles provided by udacity, and stored them in separate folders.
 I built a function *data_look()* that takes the list of paths of both cars and non cars and return a summary of the data, including a example picture of each set,  the n° of pictures for both set, and finally the shape and data type of the images.
 
 ![alt text][image1]
 
-I tried to 
+I tried different color spaces, both the L channel from *Luv* and all the channels from *YCrCB* had good results, 
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
@@ -85,9 +90,9 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ---
 
-###Discussion
+https://www.youtube.com/watch?v=44fYlcBOYA0
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+## Discussion
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
-
+The algorithm, overall, performs well however the quantity, position and size of every windows needs to be wisely set up, because the time it takes to analyse each window is considerably high, at first I chose many windows and it took over 10 seconds for each frame, then I significantly tighten the search region so the time diminished to more or less 3 seconds without compromise the accuracy. 
+I think that the algorithm is very slow, because is nested into two for loops, in order to increase the performance, the algorithm can be implemented with parallel computing using the gpu instead of the cpu. This will have an enourmous effect. I search other approaches within the state of the art and found the YOLO (You Only Look Once) system, that was incredibly faster, other classmates chose to work with CNN classifiers instead of SVM, and had much better results, and found easily and smoothly the vehicles, I did not tried to use deep learning, because I wanted to dive into svm classifiers, at the end, probably a   
