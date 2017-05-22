@@ -38,7 +38,7 @@ I first tried using all the images but my computer couldn't cope with the memory
 
 The features were then scaled with the standardScaler provided in the skimage.preprocessing library, as shown below the scaled Features are more consistent.
 
-![alt text][image3tc charts]
+![alt text][image3]
 
 Then I extracted the features and train the linear SVM using the following parameters, using a AWS machine to handle the amount of memory without collapsing.
 
@@ -55,7 +55,21 @@ Then I extracted the features and train the linear SVM using the following param
 |penalty|'l2'|
 |random_state|None|
 |tol|0.0001|
-     verbose=0
+
+The results for the test set was
+
+True Negatives = 1804
+False Positives = 11
+False Negatives = 17
+True Positives = 1720
+
+The final accuracy of the classifier was 99.21%, more than enough. the remainder false postives and negatives can be filtered later.
+
+Here is an example of 100 random pictures, as you can see, all of them were clasified correctly
+
+![alt text][image3]
+     
+
 
 ###Sliding Window Search
 
