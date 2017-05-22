@@ -46,7 +46,7 @@ The features were then scaled with the standardScaler provided in the skimage.pr
 
 # SVM Training
 
-Then I extracted the features and train the linear SVM using the following parameters, using a AWS machine to handle the amount of memory without collapsing.
+Then I extracted the features and train the linear SVM using the following parameters
 
 |Parameter  |value |
 |-----------|------|
@@ -62,6 +62,7 @@ Then I extracted the features and train the linear SVM using the following param
 |random_state|None|
 |tol|0.0001|
 
+Using a AWS machine I was able to use every image handleling efficiently the amount of memory without collapsing.
 The results for the test set was
 
 True Negatives = 1804
@@ -81,21 +82,13 @@ As recommended in the course, extracting all the features first for the region o
 the process was iterated with different scales, this emulates different windows sizes. 
 I first tried using three scales 1.25, 1.5 and 2 but some detections were redundant and only slow down the pipeline, so I used two scales 1.25 and 1.5 and with y_limits of (400,500) and (380,600) respectively, to ensure to find out vehicles that are close to the car as well to those that are far away and appear smaller in size.
 
-
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
-
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+Here it can be seen the picture sliced and scaled in the Ycrcb color space as well as detections found.
 
 ![alt text][image3]
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+## Heatmap
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
-
-![alt text][image4]
----
-
-### Video Implementation
+In order to remove the false positives and bypass the missing positives detections 
 
 ####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a [link to my video result](./project_video.mp4)
