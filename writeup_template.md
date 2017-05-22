@@ -25,20 +25,26 @@ This project aims to detect vehicles from each frame of a video and keep a track
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
-## Histogram of Oriented Gradients (HOG)
+## Data Look Up
 
 I downloaded the data from vehicles and non-vehicles provided by udacity, and stored them in separate folders.
 I built a function *data_look()* that takes the list of paths of both cars and non cars and return a summary of the data, including a example picture of each set,  the n° of pictures for both set, and finally the shape and data type of the images.
 
 ![alt text][image2]
 
+# Feature extraction
+
 I tried different using only HOG, but color information improved the acurracy so then I decided to use all the techniques used in the udacity course, HOG, bin spatial and color historam. I tried using different color spaces, The L channel from *Luv*, the Saturation channel, and all the channels from *YCrCb* had good results, at the end, I kept the YcrCb as my classmates encourage to use and I was pretty satisfied with the results.
 
 I first tried using all the images but my computer couldn't cope with the memory needed to handle all the pictures so I cutted the set to use only 100 images, with the only purpose of trying different parameters. I tried changing the pixels, per cell and orients but as I increase the numbers I noticed that the time spended also increase, and with the default values (orient = 9, pixel_per_cell=8, cell_per_block = 2, spatial_size = (32,32) and hist_bins = 32) I got good results, over 86% accuracy, then I thought that with more pictures the classifier would be more robust, and If the algorithm encounters false positives I could treat them with a later postprocessing using the heatmap approach.
 
+# Feature Scaling
+
 The features were then scaled with the standardScaler provided in the skimage.preprocessing library, as shown below the scaled Features are more consistent.
 
 ![alt text][image3]
+
+# SVM Training
 
 Then I extracted the features and train the linear SVM using the following parameters, using a AWS machine to handle the amount of memory without collapsing.
 
@@ -69,9 +75,12 @@ Here is an example of 100 random pictures, as you can see, all of them were clas
 
 ![alt text][image3]
      
+## Sliding Window Search
 
+As recommended in the course, extracting all the features first for the region of interest was done in order to get a better performace,
+the process was iterated with different scales, this emulates different windows sizes. 
+I first tried using three scales 1.25, 1.5 and 2 but some detections were redundant and only slow down the pipeline, so I used two scales 1.25 and 1.5 and with y_limits of (400,500) and (380,600) respectively, to ensure to find out vehicles that are close to the car as well to those that are far away and appear smaller in size.
 
-###Sliding Window Search
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
