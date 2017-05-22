@@ -1,7 +1,7 @@
 # Vehicle Detection Project
 
 [//]: # (Image References)
-[image1]: ./examples/car_not_car.png
+[image1]: ./output_images/video_example.gif
 [image2]: ./examples/HOG_example.jpg
 [image3]: ./examples/sliding_windows.jpg
 [image4]: ./examples/sliding_window.jpg
@@ -10,11 +10,11 @@
 [image7]: ./examples/output_bboxes.png
 [video1]: ./project_video.mp4
 
+![alt text][image1]
+
 ## Introduction
 
 This project aims to detect vehicles from each frame of a video and keep a track of each one, to achieve this goal a a computer vision technique, the svm classifier approach is selected, using diferent features of color and gradient of a a region of pixels, the region of pixels are obtained using a sliding windows search that execute the algorithm within the current window.
-
-![alt text][image1]
 
 ## Goals
 
@@ -25,7 +25,7 @@ This project aims to detect vehicles from each frame of a video and keep a track
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
-###Histogram of Oriented Gradients (HOG)
+## Histogram of Oriented Gradients (HOG)
 
 I downloaded the data from vehicles and non-vehicles provided by udacity, and stored them in separate folders.
 I built a function *data_look()* that takes the list of paths of both cars and non cars and return a summary of the data, including a example picture of each set,  the n° of pictures for both set, and finally the shape and data type of the images.
@@ -36,7 +36,11 @@ I tried different using only HOG, but color information improved the acurracy so
 
 I first tried using all the images but my computer couldn't cope with the memory needed to handle all the pictures so I cutted the set to use only 100 images, with the only purpose of trying different parameters. I tried changing the pixels, per cell and orients but as I increase the numbers I noticed that the time spended also increase, and with the default values (orient = 9, pixel_per_cell=8, cell_per_block = 2, spatial_size = (32,32) and hist_bins = 32) I got good results, over 86% accuracy, then I thought that with more pictures the classifier would be more robust, and If the algorithm encounters false positives I could treat them with a later postprocessing using the heatmap approach.
 
-Then I extracted the features and train the linear SVM using the following parameters, using a aws machine to handle the amount of memory without collapsing.
+The features were then scaled with the standardScaler provided in the skimage.preprocessing library, as shown below the scaled Features are more consistent.
+
+![alt text][image3tc charts]
+
+Then I extracted the features and train the linear SVM using the following parameters, using a AWS machine to handle the amount of memory without collapsing.
 
 |Parameter  |value |
 |-----------|------|
