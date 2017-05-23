@@ -4,15 +4,17 @@
 [image1]: ./output_images/video_example.gif
 [image2]: ./output_images/data_look_up.PNG
 [image3]: ./output_images/scaled_features.PNG
-
-
-![alt text][image1]
-
----
+[image4]: ./output_images/correct_classification.PNG
+[image5]: ./output_images/window_close_search.PNG
+[image6]: ./output_images/window_far_search.PNG
 
 ## Introduction
 
 This project aims to detect vehicles from each frame of a video and keep a track of each one, to achieve this goal a a computer vision technique, the svm classifier approach is selected, using diferent features of color and gradient of a a region of pixels, the region of pixels are obtained using a sliding windows search that execute the algorithm within the current window.
+
+![alt text][image1]
+
+---
 
 ## Goals
 
@@ -72,7 +74,7 @@ The final accuracy of the classifier was 99.21%, more than enough. the remainder
 
 Here is an example of 100 random pictures, as you can see, all of them were clasified correctly
 
-![alt text][image3]
+![alt text][image4]
      
 ## Sliding Window Search
 
@@ -82,7 +84,13 @@ I first tried using three scales 1.25, 1.5 and 2 but some detections were redund
 
 Here it can be seen the picture sliced and scaled in the Ycrcb color space as well as detections found.
 
-![alt text][image3]
+###  scale 1.25, *y* limits (400,500)
+
+![alt text][image5]
+
+###  scale 1.5, *y* limits (380,600)
+
+![alt text][image6]
 
 ## Heatmap
 
