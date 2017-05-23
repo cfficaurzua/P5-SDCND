@@ -2,13 +2,9 @@
 
 [//]: # (Image References)
 [image1]: ./output_images/video_example.gif
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
+[image2]: ./output_images/data_look_up.PNG
+[image3]: ./output_images/scaled_features.PNG
+
 
 ![alt text][image1]
 
@@ -78,7 +74,7 @@ Here is an example of 100 random pictures, as you can see, all of them were clas
      
 ## Sliding Window Search
 
-As recommended in the course, extracting all the features first for the region of interest was done in order to get a better performace,
+As recommended in the course, I extracted all the features first for the region of interest and then isolated all the features within a window in order to obtain a better performace.
 the process was iterated with different scales, this emulates different windows sizes. 
 I first tried using three scales 1.25, 1.5 and 2 but some detections were redundant and only slow down the pipeline, so I used two scales 1.25 and 1.5 and with y_limits of (400,500) and (380,600) respectively, to ensure to find out vehicles that are close to the car as well to those that are far away and appear smaller in size.
 
@@ -88,29 +84,14 @@ Here it can be seen the picture sliced and scaled in the Ycrcb color space as we
 
 ## Heatmap
 
-In order to remove the false positives and bypass the missing positives detections 
+In order to remove the false positives and bypass the missing positives detections a heatmap class was defined, the heatmap itself consisted on an array of the same size of the image but with only two dimensions width and height. the heatmap was initialized with zeros. Then in each frame it is updated. 
+First when a vehicle is detected, a value of one is added within the region of each bounding box. this will create a heatmap, where the pixels that are contained in more than one box have higher values than the ones that are only contained inside one bounding box, and the rest of the pixels, where no vehicles, were found remained as zero.
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Of course, as the video proceed, the values only increased, so my first approach to decrease the values of the pixels where no vehicles were found, was to sustract a value of 1 from the previous heatmap in each pixel where no vehicles were found.
 
+but as the cars move along and disappear, the heatmap failed to reset to zero values, my second approach was to divide by two each pixel of the previous heatmap were no vehicles was found, this came up to be a better solution, similar to the lifetime of compounds, the value of the pixels is decreased in half at each frame, if nothing is found there, so the heatmap quickly resets itself. even if the car has been in a long time at the same area. for example if the car has been in the same area for 1024 consecutive frames (~ a minute and a half @ 10 fps) , it would take only 10 frames (1 second) to reset.
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
-
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
+to remove any false positive from the heatmap a threshold of 3 is applied, then the image is labeled, and the final bounding boxes extracted.
 
 ---
 ## Results
