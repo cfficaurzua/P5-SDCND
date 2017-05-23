@@ -65,10 +65,12 @@ Then I extracted the features and train the linear SVM using the following param
 Using a AWS machine I was able to use every image handeling efficiently the amount of memory without collapsing.
 The results for the test set was
 
-True Negatives = 1804
-False Positives = 11
-False Negatives = 17
-True Positives = 1720
+|Case|n|
+|-----------|------|
+|True Negatives | 1804|
+|False Positives | 11|
+|False Negatives | 17|
+|True Positives | 1720|
 
 The final accuracy of the classifier was 99.21%, more than enough. the remainder false postives and negatives can be filtered later.
 
