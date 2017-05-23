@@ -5,8 +5,9 @@
 [image2]: ./output_images/data_look_up.PNG
 [image3]: ./output_images/scaled_features.PNG
 [image4]: ./output_images/correct_classification.PNG
-[image5]: ./output_images/window_close_search.PNG
-[image6]: ./output_images/window_far_search.PNG
+[image6]: ./output_images/window_close_search.PNG
+[image5]: ./output_images/window_far_search.PNG
+[image7]: ./output_images/untuned_classification.PNG
 
 ## Introduction
 
@@ -61,6 +62,10 @@ Then I extracted the features and train the linear SVM using the following param
 |penalty|'l2'|
 |random_state|None|
 |tol|0.0001|
+
+Here is an example of 100 random pictures, as you can see, most of them are correctly classified, but using all the pictures from the data set would definately improve the performance
+
+![alt text][image7]
 
 Using a AWS machine I was able to use every image handeling efficiently the amount of memory without collapsing.
 The results for the test set was
