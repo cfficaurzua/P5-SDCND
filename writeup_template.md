@@ -8,6 +8,8 @@
 
 ![alt text][image1]
 
+---
+
 ## Introduction
 
 This project aims to detect vehicles from each frame of a video and keep a track of each one, to achieve this goal a a computer vision technique, the svm classifier approach is selected, using diferent features of color and gradient of a a region of pixels, the region of pixels are obtained using a sliding windows search that execute the algorithm within the current window.
@@ -58,7 +60,7 @@ Then I extracted the features and train the linear SVM using the following param
 |random_state|None|
 |tol|0.0001|
 
-Using a AWS machine I was able to use every image handleling efficiently the amount of memory without collapsing.
+Using a AWS machine I was able to use every image handeling efficiently the amount of memory without collapsing.
 The results for the test set was
 
 True Negatives = 1804
@@ -106,3 +108,5 @@ The windows regions to search are fixes, that means, that there are the same for
 
 The algorithm could potentially fail with certain slopes and closed curves, because it assumes that the cars far away in the horizon are seen smaller than the ones close to the car, but with high slopes, the relative size is different as well as with close turns, therefore, in order to improve the algorithm, this has to be taken into account.
 The svm is not trained to dinstinguish between different kinds of vehicles, like trucks, bikes, SUVs, Etc. 
+
+As a next step, it would be nice to add the previous works that i've done in this course, lane finding, camera calibration, traffic signs detections onto a single pipeline.
